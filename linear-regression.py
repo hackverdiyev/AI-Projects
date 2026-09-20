@@ -4,7 +4,6 @@ from math import inf
 al=[]
 train=[]
 test=[]
-
 max_of_all=[0]*2
 
 def data():

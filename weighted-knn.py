@@ -84,6 +84,5 @@ def accuracy(k):
     
     return best_c*100/all_c
 
-
 data()
 print(accuracy(7))
