@@ -1,7 +1,8 @@
+#logistic regression algorithm
 from math import e
 
-all_M=[] # 0
-all_B=[] # 1
+all_M=[]
+all_B=[]
 
 train_M=[]
 train_B=[]

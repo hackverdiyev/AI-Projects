@@ -1,3 +1,4 @@
+# cnn with pneumonia data    97.2% accuracy (k=7)
 import os
 import torch
 import torch.nn as nn
@@ -121,4 +122,3 @@ def train_model(model,train_loader,test_loader,criterion,optimizer,epochs):
     return train_loss,test_loss,test_acc
 
 train_loss,test_loss,test_acc=train_model(model,train_loader,test_loader,criterion,optimizer,epochs=35)
-
