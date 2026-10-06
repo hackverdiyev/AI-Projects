@@ -1,0 +1,8 @@
+# Dependencies for the Python scripts and GAN/CGAN notebooks.
+torch
+torchvision
+matplotlib
+numpy
+
+# Kernel support for running the notebooks in Jupyter or VS Code.
+ipykernel
