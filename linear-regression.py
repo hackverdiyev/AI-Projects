@@ -1,59 +1,72 @@
-#linear regression algorithm
+# Linear regression algorithm
 from math import inf
 
-al=[]
-train=[]
-test=[]
-max_of_all=[0]*2
+all_rows = []
+train = []
+test = []
+max_of_all = [0, 0]
+
 
 def data():
-    global al
+    global all_rows
     global train
     global test
-    f=open("./Data/Salary_Data.csv",'r')
-    for i in f:
-        l=i.split(',')
-        if l[0].isalpha():
-            continue
-        al.append(l)
-        for u in range(2):
-            if max_of_all[u]<float(l[u]):
-                max_of_all[u]=float(l[u])
-    f.close()
-    c=int(len(al)*0.7)
-    train=al[:c]
-    test=al[c:]
 
-def MSE(dataset,k,b):
-    cem=0
-    for i in dataset:
-        cem+=(float(i[1])/max_of_all[1]-(k*float(i[0])/max_of_all[0]+b))**2
-    return cem/len(dataset)
+    with open("./Data/Salary_Data.csv", "r") as file:
+        for line in file:
+            row = line.split(",")
+            if row[0].isalpha():
+                continue
+            all_rows.append(row)
+            for column in range(2):
+                if max_of_all[column] < float(row[column]):
+                    max_of_all[column] = float(row[column])
 
-def gradient_k(dataset,k,b):
-    cem=0
-    for i in dataset:
-        cem+=(-2*float(i[1])/max_of_all[1]*float(i[0])/max_of_all[0]+b)+2*k*float(i[0])/max_of_all[0]+b**2+2*float(i[0])/max_of_all[0]+b*b
-    return cem/len(dataset)
+    split_index = int(len(all_rows) * 0.7)
+    train = all_rows[:split_index]
+    test = all_rows[split_index:]
 
-def gradient_b(dataset,k,b):
-    cem=0
-    for i in dataset:
-        cem+=(-2*float(i[1])/max_of_all[1]+2*k*float(i[0])/max_of_all[0]+b)+2*b
-    return cem/len(dataset)
 
-def linear_regression(alpha,count):
-    k,b=2,2
-    mn=(0,0)
-    min_err=inf
+def MSE(dataset, k, b):
+    total_error = 0
+    for row in dataset:
+        total_error += (float(row[1]) / max_of_all[1] - (k * float(row[0]) / max_of_all[0] + b)) ** 2
+    return total_error / len(dataset)
+
+
+def gradient_k(dataset, k, b):
+    total_gradient = 0
+    for row in dataset:
+        total_gradient += (
+            -2 * float(row[1]) / max_of_all[1] * float(row[0]) / max_of_all[0] + b
+            + 2 * k * float(row[0]) / max_of_all[0]
+            + b**2
+            + 2 * float(row[0]) / max_of_all[0]
+            + b * b
+        )
+    return total_gradient / len(dataset)
+
+
+def gradient_b(dataset, k, b):
+    total_gradient = 0
+    for row in dataset:
+        total_gradient += ((-2 * float(row[1]) / max_of_all[1] + 2 * k * float(row[0]) / max_of_all[0] + b) + 2 * b)
+    return total_gradient / len(dataset)
+
+
+def linear_regression(alpha, count):
+    k, b = 2, 2
+    best_parameters = (0, 0)
+    min_error = inf
     for i in range(count):
-        k=k-alpha*gradient_k(train,k,b)
-        b=b-alpha*gradient_b(train,k,b)
-        err=MSE(train,k,b)
-        if err<min_err:
-            min_err=err
-            mn=(k,b)
-    return MSE(test,mn[0],mn[1])
+        k = k - alpha * gradient_k(train, k, b)
+        b = b - alpha * gradient_b(train, k, b)
+        error = MSE(train, k, b)
+        if error < min_error:
+            min_error = error
+            best_parameters = (k, b)
+    return MSE(test, best_parameters[0], best_parameters[1])
+
 
 data()
-print(linear_regression(0.0033,100))
+print(linear_regression(0.0033, 100))
