@@ -57,8 +57,10 @@ def linear_regression(alpha, count):
     best_parameters = (0, 0)
     min_error = inf
     for i in range(count):
-        k = k - alpha * gradient_k(train, k, b)
-        b = b - alpha * gradient_b(train, k, b)
+        dk = gradient_k(train, k, b)
+        db = gradient_b(train, k, b)
+        k = k - alpha * dk
+        b = b - alpha * db
         error = MSE(train, k, b)
         if error < min_error:
             min_error = error
