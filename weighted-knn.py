@@ -1,4 +1,4 @@
-# KNN algorithm with cancer data: 98.2% accuracy (k=7)
+# KNN algorithm with cancer data: 98.3% accuracy (k=7)
 from math import sqrt, inf
 
 all_M = []
@@ -29,9 +29,6 @@ def data():
                 all_B.append(row)
             else:
                 continue
-            for feature_index in range(30):
-                if max_of_all[feature_index] < float(row[feature_index + 1]):
-                    max_of_all[feature_index] = float(row[feature_index + 1])
 
     split_M = int(len(all_M) * 0.8)
     split_B = int(len(all_B) * 0.8)
@@ -39,6 +36,9 @@ def data():
     train_B = all_B[:split_B]
     test_M = all_M[split_M:]
     test_B = all_B[split_B:]
+
+    for feature_index in range(30):
+        max_of_all[feature_index] = max(float(row[feature_index + 1]) for row in train_M + train_B)
 
 
 def test(row, k):
