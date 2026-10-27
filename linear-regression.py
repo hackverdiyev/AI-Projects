@@ -37,20 +37,18 @@ def MSE(dataset, k, b):
 def gradient_k(dataset, k, b):
     total_gradient = 0
     for row in dataset:
-        total_gradient += (
-            -2 * float(row[1]) / max_of_all[1] * float(row[0]) / max_of_all[0] + b
-            + 2 * k * float(row[0]) / max_of_all[0]
-            + b**2
-            + 2 * float(row[0]) / max_of_all[0]
-            + b * b
-        )
+        x = float(row[0]) / max_of_all[0]
+        y = float(row[1]) / max_of_all[1]
+        total_gradient += -2 * y * x + 2 * k * x**2 + 2 * x * b
     return total_gradient / len(dataset)
 
 
 def gradient_b(dataset, k, b):
     total_gradient = 0
     for row in dataset:
-        total_gradient += ((-2 * float(row[1]) / max_of_all[1] + 2 * k * float(row[0]) / max_of_all[0] + b) + 2 * b)
+        x = float(row[0]) / max_of_all[0]
+        y = float(row[1]) / max_of_all[1]
+        total_gradient += -2 * y + 2 * k * x + 2 * b
     return total_gradient / len(dataset)
 
 
