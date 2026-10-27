@@ -18,13 +18,13 @@ def data():
             if row[0].isalpha():
                 continue
             all_rows.append(row)
-            for column in range(2):
-                if max_of_all[column] < float(row[column]):
-                    max_of_all[column] = float(row[column])
 
     split_index = int(len(all_rows) * 0.7)
     train = all_rows[:split_index]
     test = all_rows[split_index:]
+
+    for column in range(2):
+        max_of_all[column] = max(float(row[column]) for row in train)
 
 
 def MSE(dataset, k, b):
@@ -69,4 +69,4 @@ def linear_regression(alpha, count):
 
 
 data()
-print(linear_regression(0.0033, 100))
+print(linear_regression(0.0033, 18000))
